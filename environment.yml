@@ -1,0 +1,57 @@
+name: gamezone-analytics
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+  # Python version
+  - python=3.11
+
+  # Core data
+  - pandas=2.2
+  - numpy=1.26
+  - openpyxl=3.1          # Read/write Excel (.xlsx)
+  - xlrd=2.0              # Legacy Excel (.xls) support
+  - sqlalchemy=2.0        # SQL ORM & connection layer
+  - pymysql=1.1           # MySQL connector (for MySQL Workbench)
+
+  # Analysis & statistics
+  - scipy=1.13
+  - statsmodels=0.14
+  - scikit-learn=1.5
+
+  # Machine learning & forecasting
+  - lightgbm=4.3
+  - ruptures=1.1          # Change-point detection (PELT)
+
+  # Visualisation
+  - matplotlib=3.9
+  - seaborn=0.13
+  - plotly=5.22
+
+  # Jupyter
+  - jupyter=1.0
+  - jupyterlab=4.2
+  - nbformat=5.10
+
+  # Code quality
+  - black=24.4            # Auto-formatter
+  - flake8=7.1            # Linter
+  - isort=5.13            # Import sorter
+
+  # pip-only packages (not on conda-forge)
+  - pip
+  - pip:
+    - lifelines==0.29.0        # Survival analysis (Kaplan-Meier, Cox)
+    - scikit-survival==0.23.0  # Additional survival models
+    - lifetimes==0.11.3        # BG/NBD CLV model
+    - prophet==1.1.5           # Meta's time-series forecasting
+    - shap==0.45.1             # Model explainability
+    - great-expectations==0.18 # Data quality validation
+    - fuzzywuzzy==0.18.0       # Fuzzy string matching (entity resolution)
+    - python-levenshtein==0.25 # Speed up fuzzywuzzy
+    - nbconvert==7.16          # Export notebooks to HTML/PDF
+    - python-dotenv==1.0       # Manage environment variables
+
+variables:
+  PYTHONPATH: src  # So 'from utils.helpers import ...' works in notebooks

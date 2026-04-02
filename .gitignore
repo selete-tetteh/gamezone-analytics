@@ -1,0 +1,64 @@
+# =============================================================
+# GameZone Analytics — .gitignore
+# =============================================================
+
+# ----- Python -----
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+*.so
+
+# ----- Environments -----
+.env
+.venv/
+env/
+venv/
+*.conda
+
+# ----- Jupyter -----
+.ipynb_checkpoints/
+*.ipynb~
+# Keep notebooks but strip output before committing:
+# run: jupyter nbconvert --clear-output --inplace notebooks/**/*.ipynb
+
+# ----- Data (never commit raw data to Git) -----
+data/raw/*
+data/processed/*
+!data/raw/.gitkeep
+!data/processed/.gitkeep
+
+# ----- Secrets & credentials -----
+.env
+.env.*
+config/secrets.yml
+*.pem
+*.key
+
+# ----- macOS -----
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+
+# ----- VS Code -----
+.vscode/settings.json
+.vscode/launch.json
+# Keep shared VS Code extensions recommendation:
+!.vscode/extensions.json
+
+# ----- Reports (generated artefacts — reproducible from code) -----
+reports/figures/*
+reports/excel_outputs/*
+!reports/figures/.gitkeep
+!reports/excel_outputs/.gitkeep
+
+# ----- Logs -----
+*.log
+logs/
