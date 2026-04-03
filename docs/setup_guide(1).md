@@ -1117,7 +1117,9 @@ document. It is the standard tool for data science work.
 
 ---
 
-## Your daily workflow
+
+
+## Your daily workflow ## 
 
 Every time you sit down to work on this project, follow this sequence.
 
@@ -1130,16 +1132,21 @@ conda activate gamezone-analytics
 # 2. Navigate to your project
 cd '/Users/seleteakpotosu-nartey/Downloads/Data Stuff/Gamezone/gamezone-analytics'
 
-# 3. Make sure you are on your working branch
+# 3. Pull any latest changes
+git pull origin dev
+
+# 4. Make sure you are on your working branch
 git checkout feature/project-01-audit
 
-# 4. Launch JupyterLab
+# 5. Launch JupyterLab
 jupyter lab
 ```
 
 ### Ending a session
 
 ```bash
+
+CTrl + C
 # 1. Strip notebook outputs before committing
 #    Outputs bloat the Git diff and make changes hard to review
 jupyter nbconvert --clear-output --inplace notebooks/01_data_audit/*.ipynb
@@ -1152,6 +1159,8 @@ git commit -m "feat: describe what you worked on today"
 
 # 4. Push to GitHub
 git push
+
+conda deactivate
 ```
 
 ---

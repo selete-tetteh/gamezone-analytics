@@ -19,6 +19,17 @@ git checkout feature/project-01-audit
 
 # 5. Launch JupyterLab
 jupyter lab
+
+
+
+conda activate gamezone-analytics
+cd '/Users/seleteakpotosu-nartey/Downloads/Data Stuff/Gamezone/gamezone-analytics'
+git checkout feature/project-01-audit
+jupyter lab 
+
+or 
+
+code .
 ```
 
 ### Ending a session
@@ -37,5 +48,5 @@ git commit -m "feat: describe what you worked on today"
 # 4. Push to GitHub
 git push
 ```
-
+conda deactivate
 ---
