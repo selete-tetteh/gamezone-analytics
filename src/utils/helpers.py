@@ -10,6 +10,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
 import seaborn as sns
+from matplotlib.pyplot import subplots
 from pathlib import Path
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
