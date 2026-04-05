@@ -117,5 +117,5 @@ Full write-ups for each project are in [`docs/`](docs/). Each notebook follows t
 
 ## Author
 
-**[Your Name]**  
+**Selete Akpotosu Nartey**  
 [LinkedIn](https://www.linkedin.com/in/selete-akpotosu-nartey/) · [GitHub](https://github.com/selete-tetteh)

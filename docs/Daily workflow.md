@@ -27,9 +27,6 @@ cd '/Users/seleteakpotosu-nartey/Downloads/Data Stuff/Gamezone/gamezone-analytic
 git checkout feature/project-01-audit
 jupyter lab 
 
-or 
-
-code .
 ```
 
 ### Ending a session
@@ -50,3 +47,19 @@ git push
 ```
 conda deactivate
 ---
+
+VS Code
+
+## Starting a Session
+conda activate gamezone-analytics
+cd '/Users/seleteakpotosu-nartey/Downloads/Data Stuff/Gamezone/gamezone-analytics'
+git checkout feature/project-01-audit
+code .
+
+
+
+##Ending a Session
+git add .
+git commit -m "feat: complete sections 0-5 temporal anomaly investigation, timezone and pre-order hypotheses tested"
+git push
+conda deactivate
