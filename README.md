@@ -95,7 +95,36 @@ Open the notebooks in order — each one builds on outputs from the previous.
 
 > _Populated as each project is completed._
 
-- **Project 01:** TBC
+### Project 01 — Data Quality & Anomaly Audit
+
+**Temporal anomalies (Notebook 1)**
+- 1,997 orders (9.1%) have a ship date preceding the purchase date
+- Timezone error hypothesis rejected — 92.8% of anomalies exceed 10 days, beyond any possible timezone offset
+- Pre-order fulfilment hypothesis strongly supported — Nintendo Switch median anomaly: -79 days, PS5: -62 days, both bounded within 0–150 days consistent with gaming hardware pre-order windows
+- Social media channel shows the highest anomaly rate (12.7%) — consistent with social-driven pre-order campaigns
+- India (11.9%), Switzerland (12.2%), and South Korea (11.1%) show above-average anomaly rates
+- Decision: anomalous records flagged with `IS_ANOMALY=True` and retained for revenue analysis; excluded from fulfilment time calculations
+
+**Price forensics (Notebook 2)**
+- Median order value: $168. Mean: $281. The $113 gap confirms right-skewed distribution driven by high-price outliers
+- 29 orders (0.13%) priced at exactly $0 — all on website platform, 20 sharing a single product ID — likely cancelled or test transactions
+- 1,681 orders exceed the per-product IQR upper fence — flagged as `IS_PRICE_OUTLIER=True`
+- Top 20 most expensive orders are all Sony PS5 Bundles from GB, prices up to $3,147 — likely GBP recorded without USD conversion
+- Channel has no influence on price — all channels median $168; pricing is entirely product-driven
+- Prices stable across entire 2019–2021 period — no seasonal discounting detectable
+
+**Entity resolution (Notebook 3)**
+- Fuzzy string matching identified one confirmed duplicate product name: `27inches 4k gaming monitor` → standardised to `27in 4K gaming monitor` (61 misclassified orders corrected)
+- 46 unique product IDs reduced to 9 canonical IDs — Nintendo Switch had the most variants (12 IDs)
+- Clean master dataset exported: `orders_clean_master.csv` — used by all subsequent projects
+
+**Validation pipeline (Notebook 4)**
+- Formal Great Expectations suite: 41 expectations across 6 categories (schema, completeness, value ranges, valid categories, business rules, statistical properties) — 39/41 passed (95%)
+- **Critical finding:** US (10,294 orders) was entirely absent from the region lookup table — any regional analysis would have silently excluded the largest market in the dataset. All 15 missing country codes manually mapped, 0 NaN regions remaining
+- **Critical finding:** 145 duplicate ORDER_IDs identified, all in January 2020, across Nintendo Switch (98 pairs), 27in 4K gaming monitor (37 pairs), and PS5 Bundle (10 pairs) — consistent with a batch reprocessing event. Deduplicated by keeping first occurrence
+- Final clean dataset: 21,719 orders (reduced from 21,864 after duplicate removal)
+- Validation pipeline designed to be re-run on any future data refresh to immediately catch quality regressions
+
 - **Project 02:** TBC
 - **Project 03:** TBC
 - **Project 04:** TBC
