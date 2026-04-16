@@ -53,13 +53,42 @@ VS Code
 ## Starting a Session
 conda activate gamezone-analytics
 cd '/Users/seleteakpotosu-nartey/Downloads/Data Stuff/Gamezone/gamezone-analytics'
-git checkout feature/project-01-audit
+git checkout feature/project-02-clv
+git pull origin feature/project-02-clv 
 code .
+
+
+
+
+git checkout dev
+git pull origin dev
+git checkout -b feature/project-02-clv
+git push -u origin feature/project-02-clv
+
+
+
+Then in Section 0 of every notebook, add one line after set_style():
+
+from utils.helpers import load_orders, set_style, save_figure, start_logging
+set_style()
+start_logging(project_root, '03_channel_roi_attribution')
 
 
 
 ##Ending a Session
 git add .
-git commit -m "feat: complete sections 0-5 temporal anomaly investigation, timezone and pre-order hypotheses tested"
+git commit -m "feat: completed bgNBD_clv model"
 git push
 conda deactivate
+
+
+
+## New notebook
+cd '/Users/seleteakpotosu-nartey/Downloads/Data Stuff/Gamezone/gamezone-analytics'
+touch notebooks/01_data_audit/04_great_expectations.ipynb
+
+
+
+git add .
+git commit -m "feat: complete notebook 3 channel ROI attribution, run bubble chart  "
+git push

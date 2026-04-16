@@ -162,3 +162,30 @@ def save_figure(fig: plt.Figure, filename: str, tight: bool = True):
         fig.tight_layout()
     fig.savefig(FIGURES_PATH / filename, bbox_inches="tight")
     print(f"Figure saved → reports/figures/{filename}")
+    
+
+def start_logging(project_root: Path, notebook_name: str):
+    """
+    Opens a log file and returns a log function.
+    VS Code captures print() normally — this additionally
+    writes the same output to a text file.
+
+    Usage in notebook:
+        log = start_logging(project_root, '03_channel_roi')
+        log('your message here')   # writes to file AND prints to VS Code
+    """
+    log_dir = project_root / 'logs'
+    log_dir.mkdir(exist_ok=True)
+    log_path = log_dir / f'{notebook_name}.txt'
+
+    log_file = open(log_path, 'a', encoding='utf-8')
+
+    def log(message=''):
+        """Print to VS Code output AND write to log file."""
+        print(message)
+        log_file.write(str(message) + '\n')
+        log_file.flush()
+
+    log(f'Logging started — {pd.Timestamp.now()}')
+    log(f'Log: {log_path}')
+    return log
