@@ -166,29 +166,26 @@ def save_figure(fig: plt.Figure, filename: str, tight: bool = True):
 
 def start_logging(project_root: Path, notebook_name: str):
     """
-    Redirect stdout to both terminal and a log file simultaneously.
-    Call this at the top of Section 0 in any notebook.
-    
-    Usage:
-        from utils.helpers import start_logging
-        start_logging(project_root, 'notebook_02_bgNBD')
+    Opens a log file and returns a log function.
+    VS Code captures print() normally — this additionally
+    writes the same output to a text file.
+
+    Usage in notebook:
+        log = start_logging(project_root, '03_channel_roi')
+        log('your message here')   # writes to file AND prints to VS Code
     """
-    import sys
-
-    class Tee:
-        def __init__(self, log_path):
-            self.terminal = sys.stdout
-            self.log = open(log_path, 'a', encoding='utf-8')
-        def write(self, message):
-            self.terminal.write(message)
-            self.log.write(message)
-        def flush(self):
-            self.terminal.flush()
-            self.log.flush()
-
     log_dir = project_root / 'logs'
     log_dir.mkdir(exist_ok=True)
     log_path = log_dir / f'{notebook_name}.txt'
-    sys.stdout = Tee(log_path)
-    print(f'Logging started — {pd.Timestamp.now()}')
-    print(f'Log file: {log_path}')
+
+    log_file = open(log_path, 'a', encoding='utf-8')
+
+    def log(message=''):
+        """Print to VS Code output AND write to log file."""
+        print(message)
+        log_file.write(str(message) + '\n')
+        log_file.flush()
+
+    log(f'Logging started — {pd.Timestamp.now()}')
+    log(f'Log: {log_path}')
+    return log
