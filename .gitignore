@@ -63,3 +63,4 @@ reports/excel_outputs/*
 *.log
 logs/
 *.Rhistory
+logs/

@@ -162,3 +162,33 @@ def save_figure(fig: plt.Figure, filename: str, tight: bool = True):
         fig.tight_layout()
     fig.savefig(FIGURES_PATH / filename, bbox_inches="tight")
     print(f"Figure saved → reports/figures/{filename}")
+    
+
+def start_logging(project_root: Path, notebook_name: str):
+    """
+    Redirect stdout to both terminal and a log file simultaneously.
+    Call this at the top of Section 0 in any notebook.
+    
+    Usage:
+        from utils.helpers import start_logging
+        start_logging(project_root, 'notebook_02_bgNBD')
+    """
+    import sys
+
+    class Tee:
+        def __init__(self, log_path):
+            self.terminal = sys.stdout
+            self.log = open(log_path, 'a', encoding='utf-8')
+        def write(self, message):
+            self.terminal.write(message)
+            self.log.write(message)
+        def flush(self):
+            self.terminal.flush()
+            self.log.flush()
+
+    log_dir = project_root / 'logs'
+    log_dir.mkdir(exist_ok=True)
+    log_path = log_dir / f'{notebook_name}.txt'
+    sys.stdout = Tee(log_path)
+    print(f'Logging started — {pd.Timestamp.now()}')
+    print(f'Log file: {log_path}')
