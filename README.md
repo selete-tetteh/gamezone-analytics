@@ -125,7 +125,39 @@ Open the notebooks in order — each one builds on outputs from the previous.
 - Final clean dataset: 21,719 orders (reduced from 21,864 after duplicate removal)
 - Validation pipeline designed to be re-run on any future data refresh to immediately catch quality regressions
 
-- **Project 02:** TBC
+### Project 02 — Customer Lifetime Value Segmentation
+
+**RFM Segmentation (Notebook 1)**
+- K-Means clustering (k=4) on StandardScaler-normalised RFM dimensions across 19,723 customers
+- Loyal Customers (6.9% of base) generate 36% of total revenue — classic Pareto distribution
+- Champions are frequency-driven (avg $435, 2.07 orders) — not spend-driven
+- Loyal Customers are spend-driven (avg $1,613, 1.13 orders) — one high-ticket purchase
+- 91% of customers ordered exactly once — frequency scoring required fixed thresholds, not quintiles
+- Silhouette score at k=4: 0.596 — k=2 was mathematically optimal but business-impractical
+
+**BG/NBD CLV Modelling (Notebook 2)**
+- 98.9% of customers (8,733 of 8,826) have zero repeat purchases — BG/NBD signal severely limited
+- Model fitted and validated correctly — near-zero CLV predictions accurately reflect the data
+- Product category constraint: gaming hardware has 2-4 year repurchase cycles; 2-year dataset is insufficient
+- Loyal Customers show 98.4% probability still active — retention focus confirmed
+- RFM segments remain the primary CLV decision tool for this dataset
+
+**Channel ROI Attribution (Notebook 3)**
+- Kruskal-Wallis H=375.60, p<0.0001 — channel spend differences are statistically significant
+- Affiliate leads on per-customer value: $343 avg spend, 16.8% high-value customer rate
+- Affiliate vs Direct: NOT significantly different (p=0.122) — same customer quality, lower volume
+- Email underperforms: 15.1% of customers but only 10.0% of revenue (0.66x ROI ratio)
+- Email Loyal Customer rate (2.8%) is 3× lower than affiliate (7.8%) and direct (7.7%)
+- Channel is 8.5× stronger CLV predictor than geography (68% gap vs 8% gap)
+
+**Geographic CLV Analysis (Notebook 4)**
+- Bootstrap 95% CIs confirm LATAM estimate uncertainty (CI width: $49 vs $16 for Americas)
+- Japan: highest avg spend ($472), best ROI ratio (1.52x), 455 customers — priority growth market
+- Denmark (1.33x) and South Korea (1.22x) also punch above their weight
+- Australia (0.73x), Russia (0.71x), Mexico (0.69x) underperform on ROI ratio
+- Segment mix is uniform across all regions (~9% Champions, ~7% Loyal) — no geographic segmentation signal
+- APAC vs LATAM not significantly different (p=0.72) — regional hierarchy less clear than it appears
+
 - **Project 03:** TBC
 - **Project 04:** TBC
 
