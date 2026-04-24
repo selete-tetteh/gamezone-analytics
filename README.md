@@ -158,7 +158,41 @@ Open the notebooks in order — each one builds on outputs from the previous.
 - Segment mix is uniform across all regions (~9% Champions, ~7% Loyal) — no geographic segmentation signal
 - APAC vs LATAM not significantly different (p=0.72) — regional hierarchy less clear than it appears
 
-- **Project 03:** TBC
+### Project 03 — Demand Forecasting
+
+**Feature Engineering (Notebook 1)**
+- Aggregated 14,954 orders into 790 daily and 112 weekly time series rows
+- Calendar features include cyclical sine/cosine encoding for month and day of week — prevents December and January being treated as numerically far apart
+- Lag features at 1, 2, 4, and 8 weeks with explicit data leakage prevention via `.shift()`
+- Rolling mean and standard deviation features at 4, 8, and 13-week windows
+- PELT change-point detection identified one structural shift at 2020-02-24 — consistent with COVID-19 lockdown driving a permanent revenue step-change from ~$20K to ~$60K per week
+- Lag 1 week correlation with revenue: 0.814 — strongest single predictor
+- No weekend effect detected — revenue flat across all days of the week (max difference $302)
+- Product mix feature: high-ticket order percentage averages 7.3% per week, max 15.8%
+
+**Prophet Baseline (Notebook 2)**
+- Trained on 104 weeks (2019-01-07 to 2020-12-28), tested on 8 weeks (2021-01-04 to 2021-02-22)
+- COVID change-point (2020-02-24) provided explicitly; seasonality mode set to multiplicative
+- Training MAPE: 25.1%, MAE: $5,728/week — reasonable fit given dataset constraints
+- Test MAPE: 1,062% — caused by dataset truncation: pre-order orders with future ship dates excluded from January-February 2021 counts, producing an artificial revenue collapse
+- Components decomposition confirms yearly seasonality with December peak and weekly seasonality with no meaningful day-of-week pattern
+
+**LightGBM Model (Notebook 3)**
+- Trained on post-change-point data only (2020-03-02 to 2020-11-30) — 40 weeks, 22 features
+- 3-fold time series cross-validation: mean MAPE 11.6%, mean MAE $7,874/week — most reliable performance estimate
+- Training MAPE: 0.83% — signals overfitting on 40 training weeks with 22 features
+- Top features by SHAP: revenue_roll_std_8 ($2,730), high_ticket_pct ($2,633), month ($1,890)
+- Product mix is the second most important predictor — confirms Project 02 CLV finding that what is selling matters as much as how much is selling
+- is_weekend, is_month_end, is_q4, and regime all have zero SHAP value — no predictive contribution
+- Test MAPE: 339% — same dataset truncation issue as Prophet
+
+**Model Comparison (Notebook 4)**
+- Both models predicted December 2020 within 5-10% error — models are sound, dataset is the constraint
+- LightGBM outperformed Prophet on shared test window: MAPE 340% vs 710% — lag features self-correct as actuals fall, Prophet continues projecting trained trend
+- Prophet recommended for this dataset: lower overfitting risk, built-in confidence intervals, no manual feature engineering required
+- LightGBM recommended for richer datasets (3+ years): captures non-linear feature interactions, SHAP explainability provides deeper business insight
+- Production recommendation: ensemble both models — weighted average typically outperforms either model alone
+- Dataset limitation confirmed: 2-year dataset with mid-period structural break and truncated endpoint is insufficient for production-quality forecasting
 - **Project 04:** TBC
 
 ---
