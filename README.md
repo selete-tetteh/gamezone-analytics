@@ -23,7 +23,6 @@ gamezone-analytics/
 ├── data/
 │   ├── raw/              # Original source data (git-ignored)
 │   ├── processed/        # Cleaned, feature-engineered data (git-ignored)
-│   └── sql/              # Schema definitions & seed scripts
 │
 ├── notebooks/
 │   ├── 01_data_audit/
@@ -33,7 +32,6 @@ gamezone-analytics/
 │
 ├── src/
 │   ├── utils/            # Shared helper functions (data loading, plotting)
-│   └── queries/          # Reusable SQL query templates
 │
 ├── reports/
 │   ├── figures/          # Exported charts & visualisations
@@ -76,8 +74,8 @@ Open the notebooks in order — each one builds on outputs from the previous.
 
 | Layer | Tools |
 |-------|-------|
-| Language | Python 3.11 · SQL (MySQL) |
-| Data wrangling | pandas · NumPy · SQLAlchemy |
+| Language | Python 3.11 |
+| Data wrangling | pandas · NumPy |
 | Statistics | scipy · statsmodels |
 | Machine learning | scikit-learn · LightGBM · SHAP |
 | Forecasting | Prophet · ruptures (PELT) |

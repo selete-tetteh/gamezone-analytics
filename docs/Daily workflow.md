@@ -86,9 +86,19 @@ conda deactivate
 ## New notebook
 cd '/Users/seleteakpotosu-nartey/Downloads/Data Stuff/Gamezone/gamezone-analytics'
 touch notebooks/01_data_audit/04_great_expectations.ipynb
+touch reports/generate_clv_report.py
 
 
 
 git add .
-git commit -m "feat: complete notebook 3 channel ROI attribution, run bubble chart  "
+git commit -m "feat: created working files for project 3  "
 git push
+
+git add README.md
+git commit -m "docs: add Project 02 key findings to README"
+git push
+
+
+
+
+cp '/Users/seleteakpotosu-nartey/Downloads/Data Stuff/Gamezone/Project 3/03_04_model_comparison.ipynb' notebooks/03_demand_forecasting/04_model_comparison.ipynb
