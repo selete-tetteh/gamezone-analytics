@@ -64,3 +64,4 @@ reports/excel_outputs/*
 logs/
 *.Rhistory
 logs/
+docs/Daily workflow.md
