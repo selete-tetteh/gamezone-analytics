@@ -191,7 +191,40 @@ Open the notebooks in order — each one builds on outputs from the previous.
 - LightGBM recommended for richer datasets (3+ years): captures non-linear feature interactions, SHAP explainability provides deeper business insight
 - Production recommendation: ensemble both models — weighted average typically outperforms either model alone
 - Dataset limitation confirmed: 2-year dataset with mid-period structural break and truncated endpoint is insufficient for production-quality forecasting
-- **Project 04:** TBC
+
+### Project 04 — Churn and Survival Analysis
+
+**Churn Labelling (Notebook 1)**
+- Churn threshold: 180 days since last purchase — set at 90th percentile of inter-purchase gaps among repeat buyers with a 180-day floor to account for gaming hardware repurchase cycles
+- Overall churn rate: 72.5% (9,993 of 13,778 customers) — reflects low-repeat product category, not business failure
+- Lapsed RFM segment shows 100% churn rate — independently validates both the RFM segmentation from Project 02 and the survival analysis churn definition
+- Email channel has the lowest churn rate (66.5%) despite having the lowest CLV — email attracts lower-spend but longer-tenure customers
+- Social media has the highest churn rate (79.0%) — impulsive buyers who do not return
+
+**Kaplan-Meier Survival Analysis (Notebook 2)**
+- Overall median survival: 1 day — driven by 91% one-time buyer population; meaningful metric is survival probability at time horizons (27.8% still active at 90 days, 18.3% at 365 days)
+- Champions is the only segment with meaningful survival signal — median 28 days vs 1 day for all other segments
+- All three stratifications (segment, channel, region) are statistically significant (all p < 0.05)
+- LATAM shows unexpectedly flat survival curve after day 200 — customers who survive the initial drop are extremely long-tenured
+- Email channel produces the flattest survival curve — most stable ongoing retention of any channel
+
+**Cox Proportional Hazards Model (Notebook 3)**
+- Concordance: 0.89 — model correctly ranks which customer churns sooner in 89% of pairwise comparisons
+- RFM_score: HR 0.524 (p<0.0001) — strongest protective factor; each standard deviation increase in RFM score cuts churn risk nearly in half
+- is_high_ticket_buyer: HR 0.744 (p<0.0001) — PS5 and laptop buyers churn 26% slower, confirming they are more engaged customers
+- avg_order_value: HR 1.297 (p<0.0001) — higher average prices associated with 30% faster churn, likely reflecting currency-suspect GB orders from Project 01
+- Email (HR 0.881), APAC (HR 0.909), EMEA (HR 0.927) all significantly protective
+- Direct and affiliate channels not significantly different from each other — confirms Project 02 equivalence finding
+- Proportional hazards assumption holds for 9 of 10 features; total_orders violates assumption
+
+**Churn Risk Scoring (Notebook 4)**
+- Composite risk score (0-100): 40% Cox hazard + 40% recency + 20% inverse RFM
+- Mean risk score: 39.8, range 5.2 to 92.0 — well-distributed scoring system
+- Champions avg risk score 26.1 vs Lapsed 66.9 — 40-point gap validates RFM as churn proxy
+- Priority 1 (High CLV / High Risk): 3,210 customers, $1.35M revenue at stake — primary retention target
+- Priority 2 (High CLV / Low Risk): 4,814 customers, $2.43M revenue — largest stable revenue pool
+- Critical tier customers (753, avg spend $94) do not justify heavy retention investment
+- Low tier customers (3,623) show only 15% churn rate and $456 avg spend — protect these customers
 
 ---
 
@@ -199,12 +232,11 @@ Open the notebooks in order — each one builds on outputs from the previous.
 
 Full write-ups for each project are in [`docs/`](docs/). Each notebook follows the structure:
 
-1. Business question
-2. Data loading & validation
-3. Exploratory analysis
-4. Modelling / analysis
-5. Results & interpretation
-6. Recommendations
+1. Data loading & validation
+2. Exploratory analysis
+3. Modelling / analysis
+4. Results & interpretation
+5. Recommendations
 
 ---
 
