@@ -2,7 +2,7 @@
 
 An end-to-end data science portfolio project covering anomaly detection, customer lifetime value modelling, demand forecasting, and churn survival analysis on a real-world e-commerce dataset (21,864 orders · 150 countries · 2019–2021).
 
-Built as part of a data analytics portfolio. Every decision in the code, SQL, and documentation includes a reason, not just a description.
+Built as part of a data analytics portfolio.
 
 ---
 
